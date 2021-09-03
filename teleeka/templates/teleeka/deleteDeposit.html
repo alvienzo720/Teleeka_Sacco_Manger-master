@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
+  <meta name="author" content="Creative Tim">
+  <title>Teleeka Sacco Mgt</title>
+  <!-- Favicon -->
+
+
+
+  <link rel="icon" type="image/png" href="{% static 'assets/img/brand/favicon.png' %}">
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+  <!-- Icons -->
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/nucleo/css/nucleo.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/@fortawesome/fontawesome-free/css/all.min.css' %}" >
+  <!-- Page plugins -->
+  <!-- Argon CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/css/argon.css' %}" >
+</head>
+
+
+{% block content %}
+
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="crad card-body">
+		<p>Are you sure you want to delete this deposit for "{{deposit}}"?</p>
+			<form action="{% url 'deleteDeposit' deposit.id %}" method="POST">
+
+				{% csrf_token %}
+
+				<a class="btn btn-warning" href="{% url 'deposit' %}">Cancel</a>
+			<input class="btn btn-danger" type="submit" name="Confrim">
+
+	
+</form>
+</div>
+</div>
+</div>
+
+
+
+ {% endblock content %}
+
+  </footer>
+  <script src="{% static 'assets/vendor/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/js-cookie/js.cookie.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js' %}"></script>
+  <!-- Optional JS -->
+  <script src="{% static 'assets/vendor/chart.js/dist/Chart.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chart.js/dist/Chart.extension.js' %}"></script>
+  <!-- Argon JS -->
+  <script src="{% static 'assets/js/argon.js' %}"></script>
+</body>
+
+</html>

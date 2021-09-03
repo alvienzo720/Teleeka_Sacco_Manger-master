@@ -1,0 +1,120 @@
+
+
+{% extends 'teleeka/main.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+
+{% include 'teleeka/head.html' %}
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      <div class="row">
+        <div class="col-xl-8">
+          <div class="card bg-default">      
+          </div>
+        </div>
+      </div>
+      <div class="row">
+                <div class="col">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Deposit</h3>
+                </div>
+              </div>
+            </div>
+            <form>
+              <div class="container">
+          </div>
+        </div>
+        </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+         <div class="col">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Recent Withdrawls</h3>
+                  
+                </div>
+              </div>
+                              <div class="col text-right">
+                  <a href="{% url 'createDeposit' %}" class="btn btn-md btn-primary">Create Deposit</a>
+                </div>
+            </div>
+            <div class="table-responsive">
+              <!-- Projects table -->
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Full name</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Date</th>
+                     <th>Status</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for deposit in deposits %}
+                  <tr>
+                    <th scope="row">
+                      {{deposit.clientName}}
+                    </th>
+                    <td>
+                      {{deposit.amount}}.UGX
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <span class="mr-2">{{deposit.date_created}}</span>
+                        <div>
+                        </div>
+                      </div>
+                    </td>
+                    <td><a href="#" class="badge badge-info">{{deposit.status}}</a></td>
+                    <td>
+                     <button class="btn btn-icon btn-3 btn-danger" type="button">
+                        <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
+                          <a href="{% url 'deleteDeposit' deposit.id %}">
+                         <span class="btn-inner--text">Delete</span>
+                     </button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          </div>
+        </div>
+        </div>
+
+        
+      </div>
+      <!-- Footer -->
+      <footer class="footer pt-0">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6">
+            <div class="copyright text-center  text-lg-left  text-muted">
+              &copy; 2021 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Alvin Mutebi</a>
+            </div>
+          </div>
+
+        </div>
+      </footer>
+    </div>
+  </div>
+
+
+
+{% endblock %}

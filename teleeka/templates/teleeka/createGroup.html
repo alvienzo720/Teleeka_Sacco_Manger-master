@@ -1,0 +1,75 @@
+
+{% extends 'teleeka/main.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+{% include 'teleeka/head.html' %}
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      <div class="row">
+        <div class="col-xl-8">
+          <div class="card bg-default">      
+          </div>
+        </div>
+      </div>
+            
+       </div>
+     <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Create Saving Group</h3>
+
+                  <form method="POST">
+          			{% csrf_token %}
+         			<div class="container">
+				  <div class="row">
+				    <div class="col">
+				      <div class="form-group">
+        			<label for="example-text-input" class="form-control-label">Group Name</label>
+        				{{form.name}}
+    				</div>
+				    </div>
+	
+				  </div>
+          <div class="row">
+              <div class="col">
+              <div class="form-group">
+              <label for="example-text-input" class="form-control-label">Status</label>
+                {{form.status}}
+            </div>
+            </div>
+          </div>
+				  <div class="row">
+			 		<button type="submit" class="btn btn-primary btn-lg btn-block">Create Group</button>
+				  </div>
+				</div>
+        </form>
+
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer pt-0">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6">
+            <div class="copyright text-center  text-lg-left  text-muted">
+              &copy; 2021 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Alvin Mutebi</a>
+            </div>
+          </div>
+
+        </div>
+      </footer>
+    </div>
+  </div>
+  {% endblock %}
