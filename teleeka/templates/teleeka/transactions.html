@@ -25,7 +25,7 @@
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Deposits</h3>
+                  <h3 class="mb-0">Contributions</h3>
                 </div>
               </div>
             </div>
@@ -35,7 +35,6 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">Full name</th>
-                    <th scope="col">Group</th>
                     <th scope="col">Date</th>
                     <th scope="col">Amount</th>
                      <th>Status</th>
@@ -48,9 +47,6 @@
                     <th scope="row">
                      {{deposit.clientName}}
                     </th>
-                    <td>
-                     {{deposit.group}}
-                    </td>
                     <td>{{deposit.date_created}}</td>
                     <td>{{deposit.amount}}</td>
                     
@@ -71,7 +67,7 @@
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Withdrawls</h3>
+                  <h3 class="mb-0">Loans Given</h3>
                 </div>
               </div>
             </div>
@@ -81,7 +77,6 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">Full name</th>
-                    <th scope="col">Group</th>
                     <th scope="col">Date</th>
                     <th scope="col">Amount</th>
                      <th>Status</th>
@@ -89,18 +84,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                 {% for withdrawl in withdrawls %}
+                 {% for loan in loans %}
                   <tr>
                     <th scope="row">
-                     {{withdrawl.clientName}}
+                     {{loan.clientName}}
                     </th>
-                    <td>
-                     {{withdrawl.group}}
-                    </td>
-                    <td>{{withdrawl.date_created}}</td>
-                      <td>{{withdrawl.amount}}</td>
+                    <td>{{loan.date_created}}</td>
+                      <td>{{loan.amount}}</td>
                     
-                    <td><a href="#" class="badge badge-info">{{withdrawl.status}}</a></td>
+                    <td><a href="#" class="badge badge-info">{{loan.status}}</a></td>
                 
                   </tr>
                {% endfor %}

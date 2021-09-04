@@ -68,8 +68,10 @@ class SignUpForm(UserCreationForm):
 class CreateClientForm(ModelForm):
 	class Meta:
 		model = Client 
-		fields = ['fullname', 'email','phone','group','status']
-	
+		fields = ['fullname', 'email','phone','status']
+
+
+
 class CreateDepositForm(ModelForm):
 	class Meta:
 		model = Deposit 
@@ -83,9 +85,8 @@ class CreateWithdrawlForm(ModelForm):
 		model = Withdrawl 
 		fields = '__all__'
 
-class CreateSavingGroupForm(ModelForm):
+class createLoanForm(ModelForm):
 	class Meta:
-		model = SavingGroup 
+		model = Loan
 		fields = '__all__'
-
 

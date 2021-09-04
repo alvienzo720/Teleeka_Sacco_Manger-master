@@ -25,11 +25,11 @@
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Clients</h3>
+                  <h3 class="mb-0">Members</h3>
                 </div>
               </div>
                  <div class="col text-right">
-                  <a href="{% url 'createClient' %}" class="btn btn-md btn-primary">Add Client</a>
+                  <a href="{% url 'createClient' %}" class="btn btn-md btn-primary">Add Memeber</a>
                 </div>
             </div>
             <div class="table-responsive">
@@ -39,7 +39,6 @@
                   <tr>
                     <th scope="col">Full name</th>
                     <th scope="col">Phone</th>
-                    <th scope="col">Group</th>
                     <th scope="col">Status</th>
                     <th></th>
                     <th></th>
@@ -55,11 +54,6 @@
                     </th>
                     <td>
                       {{client.phone}}
-                    </td>
-
-                    
-                   <td>
-                      {{client.group}}
                     </td>
                     <td><a href="#" class="badge badge-success">{{client.status}}</a></td>
                     </td>

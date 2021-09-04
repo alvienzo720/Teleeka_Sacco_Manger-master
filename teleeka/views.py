@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 
 from django.forms.utils import ErrorList
 
-from .forms import  CreateClientForm, CreateDepositForm, CreateWithdrawlForm, CreateSavingGroupForm, LoginForm, SignUpForm
+from .forms import  CreateClientForm, CreateDepositForm, CreateWithdrawlForm , LoginForm, SignUpForm, createLoanForm
 
 from django.contrib.auth import authenticate, login , logout 
 
@@ -81,10 +81,15 @@ def home(request):
 	count_deposit = deposits.count()
 	clients = Client.objects.all()
 	client_count = clients.count()
-	withdrawls = Withdrawl.objects.all()
-	count_withdrawls = withdrawls.count()
+	loans = Loan.objects.all()
+	loan_count = loans.count()
+	all_time_contributions = 0
+	for deposit in deposits:
+		all_time_contributions += deposit.amount
+
 	context = {'clients':clients,'client_count':client_count,'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls, 'count_withdrawls':count_withdrawls}
+				'count_deposit':count_deposit,'loans':loans, 'loan_count':loan_count,
+				'all_time_contributions':all_time_contributions}
 
 	return render(request, 'teleeka/index.html', context)
 
@@ -97,19 +102,40 @@ def logoutUser(request):
 
 
 # Profile View
-def profile(request):
+def profile(request,pk):
+	client = Client.objects.get(id=pk)
+
+
 	deposits = Deposit.objects.all()
 	count_deposit = deposits.count()
-	clients = Client.objects.all()
-	client_count = clients.count()
-	withdrawls = Withdrawl.objects.all()
-	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
+	# clients = Client.objects.all()
+	# client_count = clients.count()
 
-	context = {'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups,'count_groups':count_groups}
+	depo = client.deposit_set.all()
+
+	loans = client.loan_set.all()
+
+	total_personal_contributions = 0
+
+	count_personal_contributions = depo.count()
+
+	for obj in depo:
+		total_personal_contributions += obj.amount
+
+
+	total_personal_loan = 0
+
+	for obj in loans:
+		total_personal_loan += obj.amount
+
+
+
+
+	context = {'depo':depo, 'client':client,'deposits':deposits,
+				'count_deposit':count_deposit, 'loans':loans, 
+				'total_personal_contributions':total_personal_contributions,
+				'total_personal_loan':total_personal_loan,
+				'count_personal_contributions':count_personal_contributions}
 
 
 	return render(request, 'teleeka/profile.html',context)
@@ -120,16 +146,15 @@ def deposit(request):
 	count_deposit = deposits.count()
 	clients = Client.objects.all()
 	client_count = clients.count()
-	withdrawls = Withdrawl.objects.all()
-	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
+	loans = Loan.objects.all()
+	loan_count = loans.count()
+	all_time_contributions = 0
+	for deposit in deposits:
+		all_time_contributions += deposit.amount
 
-	
-
-	context = {'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups,'count_groups':count_groups}
+	context = {'clients':clients,'client_count':client_count,'deposits':deposits,
+				'count_deposit':count_deposit,'loans':loans, 'loan_count':loan_count,
+				'all_time_contributions':all_time_contributions}
 	
 
 	return render(request, 'teleeka/deposit.html', context)
@@ -140,14 +165,11 @@ def withdrawl(request):
 	count_deposit = deposits.count()
 	clients = Client.objects.all()
 	client_count = clients.count()
-	withdrawls = Withdrawl.objects.all()
-	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
+	loans = Loan.objects.all()
 
-	context = {'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups,'count_groups':count_groups}
+
+	context = {'loans':loans,'clients':clients, 'client_count':client_count, 'deposits':deposits,
+				'count_deposit':count_deposit}
 
 	return render(request, 'teleeka/withdrawl.html', context)
 
@@ -158,14 +180,10 @@ def transactions(request):
 	count_deposit = deposits.count()
 	clients = Client.objects.all()
 	client_count = clients.count()
-	withdrawls = Withdrawl.objects.all()
-	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
+
 
 	context = {'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups,'count_groups':count_groups}
+				'count_deposit':count_deposit}
 	
 	return render(request, 'teleeka/transactions.html', context)
 
@@ -178,12 +196,9 @@ def clientPage(request):
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
 	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
 	
 	context = {'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups,'count_groups':count_groups}
+				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
 
 	return render(request, 'teleeka/clientspage.html', context)
 
@@ -196,8 +211,6 @@ def createClient(request):
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
 	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
 
 	if request.method == 'POST':
 		form = CreateClientForm(request.POST)
@@ -213,8 +226,7 @@ def createClient(request):
 	
 	
 	context = {'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups,'count_groups':count_groups}
+				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
 
 
 	return render(request, 'teleeka/createClient.html',context)
@@ -229,8 +241,6 @@ def editClient(request, pk):
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
 	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
 	client = Client.objects.get(id=pk)
 	formset = CreateClientForm(instance=client)
 	if request.POST == 'POST':
@@ -243,8 +253,7 @@ def editClient(request, pk):
 			# except Exception as e:
 			# 	pass
 	context = {'formset':formset,'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups,'count_groups':count_groups}
+				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
 	return render(request, 'teleeka/editClient.html', context)
 
 
@@ -267,8 +276,6 @@ def createDeposit(request):
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
 	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
 
 	if request.method == 'POST':
 		form = CreateDepositForm(request.POST)
@@ -283,8 +290,7 @@ def createDeposit(request):
 		form = CreateDepositForm()
 	
 	context = {'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups,'count_groups':count_groups}
+				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
 
 
 	
@@ -301,19 +307,17 @@ def deleteDeposit(request,pk):
 
 
 # create withdrawl view
-def createWithdraw(request):
-
+def CreateLoan(request):
+	loans = Loan.objects.all()
 	deposits = Deposit.objects.all()
 	count_deposit = deposits.count()
 	clients = Client.objects.all()
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
 	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
 
 	if request.method == 'POST':
-		form = CreateWithdrawlForm(request.POST)
+		form = createLoanForm(request.POST)
 		if form.is_valid():
 			try:
 				form.save()
@@ -322,11 +326,10 @@ def createWithdraw(request):
 			except:
 				pass
 	else:
-		form = CreateWithdrawlForm()
+		form = createLoanForm()
 	
-	context = {'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups,'count_groups':count_groups}
+	context = {'loans':loans,'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
+				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
 
 
 	
@@ -334,12 +337,12 @@ def createWithdraw(request):
 
 
 # delete withdrawl view
-def deleteWithdrawl(request,pk):
-	withdrawl = Withdrawl.objects.get(id=pk)
+def deleteLoan(request,pk):
+	loan = Loan.objects.get(id=pk)
 	if request.method == 'POST':
-		withdrawl.delete()
+		loan.delete()
 		return redirect('withdrawl')
-	context = {'withdrawl':withdrawl}
+	context = {'loan':loan}
 	return render(request, 'teleeka/deleteWithdrawl.html', context)
 
 
@@ -351,58 +354,11 @@ def groupPage(request):
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
 	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
 	context = {'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups, 'count_groups':count_groups}
+				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
 
 	return render(request, 'teleeka/groupPage.html', context)
 
-
-# create group view
-def createGroup(request):
-
-	deposits = Deposit.objects.all()
-	count_deposit = deposits.count()
-	clients = Client.objects.all()
-	client_count = clients.count()
-	withdrawls = Withdrawl.objects.all()
-	count_withdrawls = withdrawls.count()
-	groups = SavingGroup.objects.all()
-	count_groups = groups.count()
-
-	if request.method == 'POST':
-		form = CreateSavingGroupForm(request.POST)
-		if form.is_valid():
-			try:
-				form.save()
-				model = form.instance
-				return redirect('groupPage')
-			except:
-				pass
-	else:
-		form = CreateSavingGroupForm()
-	
-	context = {'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'groups':groups, 'count_groups':count_groups}
-
-
-	
-	return render(request, 'teleeka/createGroup.html', context)
-
-
-
-
-#delte group view
-def deleteGroup(request,pk):
-	group = SavingGroup.objects.get(id=pk)
-	if request.method == 'POST':
-		group.delete()
-		return redirect('groupPage')
-	context = {'group':group}
-	return render(request, 'teleeka/deleteGroup.html', context)
 
 
 

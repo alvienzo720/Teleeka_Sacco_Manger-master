@@ -23,7 +23,7 @@
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Create Client</h3>
+                  <h3 class="mb-0">Create Member</h3>
 
                   <form method="POST">
           			{% csrf_token %}
@@ -47,12 +47,6 @@
         				{{form.phone}}
     				</div>
 				    </div>
-				      <div class="col">
-				     <div class="form-group">
-        			<label for="example-text-input" class="form-control-label">Group</label>
-        				{{form.group}}
-    				</div>
-				    </div>
 				  </div>
 				  <div class="row">
 				  	  <div class="col">
@@ -60,16 +54,10 @@
         			<label for="example-text-input" class="form-control-label">Status</label>
         				{{form.status}}
     				</div>
-				    </div>
-				    <div class="col">
-				      <div class="form-group">
-        			<label for="example-text-input" class="form-control-label">Note</label>
-        				{{form.note}}
-    				</div>
-				    </div>
+				</div>
 				  </div>
 				  <div class="row">
-			 		<button type="submit" class="btn btn-primary btn-lg btn-block">Create Client</button>
+			 		<button type="submit" class="btn btn-primary btn-lg btn-block">Add Member</button>
 				  </div>
 				</div>
          

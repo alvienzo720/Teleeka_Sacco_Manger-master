@@ -23,7 +23,7 @@
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Create Deposit</h3>
+                  <h3 class="mb-0">Create Contribution</h3>
 
                   <form method="POST">
           			{% csrf_token %}
@@ -35,11 +35,6 @@
         				{{form.clientName}}
     				</div>
 				    </div>
-				    <div class="col">
-				     <div class="form-group">
-        			<label for="example-text-input" class="form-control-label">Group</label>
-        				{{form.group}}
-    				</div>
 				    </div>
 				        <div class="col">
 				      <div class="form-group">
@@ -60,7 +55,7 @@
 				    </div>
 				  </div>
 				  <div class="row">
-			 		<button type="submit" class="btn btn-primary btn-lg btn-block">Deposit</button>
+			 		<button type="submit" class="btn btn-primary btn-lg btn-block">Submit Contribution</button>
 				  </div>
 				</div>
          
