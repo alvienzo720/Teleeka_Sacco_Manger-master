@@ -24,7 +24,6 @@
               <div class="row align-items-center">
                 <div class="col">
                   <h3 class="mb-0">Create Contribution</h3>
-
                   <form method="POST">
           			{% csrf_token %}
          			<div class="container">
@@ -35,24 +34,20 @@
         				{{form.clientName}}
     				</div>
 				    </div>
-				    </div>
-				        <div class="col">
+            <div class="col">
 				      <div class="form-group">
         			<label for="example-text-input" class="form-control-label">Amount</label>
         				{{form.amount}}
     				</div>
 				    </div>
-	
-				  </div>
-				  <div class="row">
-				  	  <div class="col">
+            <div class="col">
 				      <div class="form-group">
         			<label for="example-text-input" class="form-control-label">Status</label>
         				{{form.status}}
     				</div>
 				    </div>
-				    <div class="col">
 				    </div>
+				
 				  </div>
 				  <div class="row">
 			 		<button type="submit" class="btn btn-primary btn-lg btn-block">Submit Contribution</button>

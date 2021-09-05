@@ -62,10 +62,11 @@ class Withdrawl(models.Model):
 
 class Loan(models.Model):
 	STATUS = (
-		('Pending','Pending'),
-		('Completed', 'Completed'),
+		('Paid','Paid'),
+		('Not Paid', 'Not Paid'),
 		)
 	clientName = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True)
+	reason = models.CharField(max_length=200, null=True)
 	amount = models.IntegerField(null=True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	status = models.CharField(max_length=200, null=True, choices=STATUS)

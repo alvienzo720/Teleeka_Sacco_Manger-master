@@ -108,14 +108,18 @@ def profile(request,pk):
 
 	deposits = Deposit.objects.all()
 	count_deposit = deposits.count()
-	# clients = Client.objects.all()
-	# client_count = clients.count()
+	clients = Client.objects.all()
+	client_count = clients.count()
+	loans = Loan.objects.all()
+	loan_count = loans.count()
 
 	depo = client.deposit_set.all()
 
 	loans = client.loan_set.all()
 
 	total_personal_contributions = 0
+
+	all_time_contributions = 0
 
 	count_personal_contributions = depo.count()
 
@@ -129,13 +133,20 @@ def profile(request,pk):
 		total_personal_loan += obj.amount
 
 
+	for deposit in deposits:
+		all_time_contributions += deposit.amount
+
+
+
 
 
 	context = {'depo':depo, 'client':client,'deposits':deposits,
 				'count_deposit':count_deposit, 'loans':loans, 
 				'total_personal_contributions':total_personal_contributions,
 				'total_personal_loan':total_personal_loan,
-				'count_personal_contributions':count_personal_contributions}
+				'count_personal_contributions':count_personal_contributions,
+				'clients':clients, 'client_count':client_count,'loans':loans, 'loan_count':loan_count,
+				'all_time_contributions':all_time_contributions}
 
 
 	return render(request, 'teleeka/profile.html',context)
@@ -166,10 +177,22 @@ def withdrawl(request):
 	clients = Client.objects.all()
 	client_count = clients.count()
 	loans = Loan.objects.all()
+	loan_count = loans.count()
+	all_time_contributions = 0
+	total_loans_given = 0
+
+	for loan in loans:
+		total_loans_given += loan.amount
+
+	for deposit in deposits:
+		all_time_contributions += deposit.amount
+
+	
 
 
-	context = {'loans':loans,'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit}
+	context = {'all_time_contributions':all_time_contributions,'loans':loans,'loan_count':loan_count,
+				'clients':clients, 'client_count':client_count, 'deposits':deposits,
+				'count_deposit':count_deposit, 'total_loans_given':total_loans_given}
 
 	return render(request, 'teleeka/withdrawl.html', context)
 
@@ -180,10 +203,17 @@ def transactions(request):
 	count_deposit = deposits.count()
 	clients = Client.objects.all()
 	client_count = clients.count()
+	loans = Loan.objects.all()
+	loan_count = loans.count()
+
+	all_time_contributions = 0
+	for deposit in deposits:
+		all_time_contributions += deposit.amount
 
 
 	context = {'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit}
+				'count_deposit':count_deposit, 'all_time_contributions':all_time_contributions,
+				'loans':loans, 'loan_count':loan_count}
 	
 	return render(request, 'teleeka/transactions.html', context)
 
@@ -196,9 +226,13 @@ def clientPage(request):
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
 	count_withdrawls = withdrawls.count()
+	all_time_contributions = 0
+	for deposit in deposits:
+		all_time_contributions += deposit.amount
 	
 	context = {'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
+				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
+				'all_time_contributions':all_time_contributions}
 
 	return render(request, 'teleeka/clientspage.html', context)
 
@@ -211,6 +245,9 @@ def createClient(request):
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
 	count_withdrawls = withdrawls.count()
+	all_time_contributions = 0
+	for deposit in deposits:
+		all_time_contributions += deposit.amount
 
 	if request.method == 'POST':
 		form = CreateClientForm(request.POST)
@@ -226,7 +263,8 @@ def createClient(request):
 	
 	
 	context = {'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
+				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
+				'all_time_contributions':all_time_contributions}
 
 
 	return render(request, 'teleeka/createClient.html',context)
@@ -276,6 +314,8 @@ def createDeposit(request):
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
 	count_withdrawls = withdrawls.count()
+	loans = Loan.objects.all()
+	loan_count = loans.count()
 
 	if request.method == 'POST':
 		form = CreateDepositForm(request.POST)
@@ -290,7 +330,8 @@ def createDeposit(request):
 		form = CreateDepositForm()
 	
 	context = {'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
-				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
+				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
+				'loans':loans, 'loan_count':loan_count}
 
 
 	
@@ -358,10 +399,4 @@ def groupPage(request):
 				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
 
 	return render(request, 'teleeka/groupPage.html', context)
-
-
-
-
-
-
 
