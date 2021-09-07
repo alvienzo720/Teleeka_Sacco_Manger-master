@@ -21,6 +21,7 @@ urlpatterns = [
 	path('CreateLoan/', views.CreateLoan, name='CreateLoan'),
 	path('deleteLoan/<str:pk>/', views.deleteLoan, name='deleteLoan'),
 
+
 	
 
 

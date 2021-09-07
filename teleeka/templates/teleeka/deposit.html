@@ -25,7 +25,7 @@
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Total Contributions {{all_time_contributions}}:UGX</h3>
+                  <h3 class="mb-0">Total Contributions {{all_time_contributions}} UGX</h3>
                 </div>
               </div>
             </div>
@@ -60,8 +60,7 @@
                     <th scope="col">Amount</th>
                     <th scope="col">Date</th>
                      <th>Status</th>
-                    <th></th>
-                    <th></th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -71,7 +70,7 @@
                       {{deposit.clientName}}
                     </th>
                     <td>
-                      {{deposit.amount}}.UGX
+                      {{deposit.amount}} UGX
                     </td>
                     <td>
                       <div class="d-flex align-items-center">
@@ -82,12 +81,15 @@
                     </td>
                     <td><a href="#" class="badge badge-info">{{deposit.status}}</a></td>
                     <td>
-                     <button class="btn btn-icon btn-3 btn-danger" type="button">
-                        <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
-                          <a href="{% url 'deleteDeposit' deposit.id %}">
-                         <span class="btn-inner--text">Delete</span>
-                     </button>
-                    </td>
+                      <div class="dropdown">
+                          <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                              <a class="dropdown-item" href="{% url 'deleteDeposit' deposit.id %}">Delete</a>
+                          </div>
+                      </div>
+                  </td>
                   </tr>
                   {% endfor %}
                 </tbody>

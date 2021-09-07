@@ -1,27 +1,16 @@
 from django.shortcuts import render, redirect 
-
+from django.template.loader import get_template
 from django.http import HttpResponse
-
 from django.forms import inlineformset_factory
-
 from django.contrib.auth.forms import UserCreationForm
-
 from django.contrib import messages
-
 from django.contrib.auth.models import User
-
 from django.forms.utils import ErrorList
-
 from .forms import  CreateClientForm, CreateDepositForm, CreateWithdrawlForm , LoginForm, SignUpForm, createLoanForm
-
 from django.contrib.auth import authenticate, login , logout 
-
 from django.contrib.auth.decorators import login_required
-
 from .decorators import unauthnticated_user
-
 from django.contrib.auth.models import Group
-
 from .models import *
 
 # login View
@@ -104,8 +93,6 @@ def logoutUser(request):
 # Profile View
 def profile(request,pk):
 	client = Client.objects.get(id=pk)
-
-
 	deposits = Deposit.objects.all()
 	count_deposit = deposits.count()
 	clients = Client.objects.all()
@@ -135,9 +122,6 @@ def profile(request,pk):
 
 	for deposit in deposits:
 		all_time_contributions += deposit.amount
-
-
-
 
 
 	context = {'depo':depo, 'client':client,'deposits':deposits,
@@ -186,8 +170,6 @@ def withdrawl(request):
 
 	for deposit in deposits:
 		all_time_contributions += deposit.amount
-
-	
 
 
 	context = {'all_time_contributions':all_time_contributions,'loans':loans,'loan_count':loan_count,
@@ -373,7 +355,6 @@ def CreateLoan(request):
 				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
 
 
-	
 	return render(request, 'teleeka/createWithdraw.html', context)
 
 
@@ -399,4 +380,7 @@ def groupPage(request):
 				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
 
 	return render(request, 'teleeka/groupPage.html', context)
+
+
+
 

@@ -7,7 +7,8 @@
       <!-- Brand -->
       <div class="sidenav-header  align-items-center">
         <a class="navbar-brand" href="javascript:void(0)">
-          <img src="{% static 'assets/img/brand/TELEEKA.png' %}" height="144px"class="navbar-brand-img" alt="...">
+          <h2>Teleeka </h2>
+          <h4>Saving for Everyone</h4>
         </a>
       </div>
       <div class="navbar-inner">
@@ -101,10 +102,6 @@
                 <div class="dropdown-header noti-title">
                   <h6 class="text-overflow m-0">Welcome!</h6>
                 </div>
-                <a href="#!" class="dropdown-item">
-                  <i class="ni ni-single-02"></i>
-                  <span>My profile</span>
-                </a>
                 <div class="dropdown-divider"></div>
                 <a href="{% url 'logout' %}" class="dropdown-item">
                   <i class="ni ni-user-run"></i>
@@ -190,7 +187,7 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total Savings</h5>
-                      <span class="h2 font-weight-bold mb-0">{{all_time_contributions}}. UGX</span>
+                      <span class="h2 font-weight-bold mb-0">{{all_time_contributions}} UGX</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">

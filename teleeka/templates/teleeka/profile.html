@@ -35,11 +35,11 @@
                       <span class="description">Contributions counts</span>
                     </div>
                     <div>
-                      <span class="heading"> {{total_personal_loan}}UGX</span>
+                      <span class="heading"> {{total_personal_loan}} UGX</span>
                       <span class="description">Loans</span>
                     </div>
                     <div>
-                      <span class="heading">{{total_personal_contributions}}UGX</span>
+                      <span class="heading">{{total_personal_contributions}} UGX</span>
                       <span class="description">Total Savings</span>
                     </div>
                   </div>
@@ -75,6 +75,7 @@
                     <th scope="col">Amount</th>
                     <th scope="col">Date</th>
                      <th>Status</th>
+                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -84,7 +85,7 @@
                      {{d.clientName}}
                     </th>
                     <td>
-                     {{d.amount}}UGX
+                     {{d.amount}} UGX
                     </td>
                     <td>{{d.date_created}}</td>
                     </td>
@@ -126,7 +127,7 @@
                      {{loan.clientName}}
                     </th>
                     <td>
-                     {{loan.amount}}UGX
+                     {{loan.amount}} UGX
                     </td>
                     <td>{{loan.date_created}}</td>
                     </td>
