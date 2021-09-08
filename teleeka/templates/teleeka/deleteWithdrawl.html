@@ -31,7 +31,7 @@
 	<div class="col-md-6">
 		<div class="crad card-body">
 		<p>Are you sure you want to delete this withdrwal for "{{withdrawl}}"?</p>
-			<form action="{% url 'deleteWithdrawl' withdrawl.id %}" method="POST">
+			<form action="{% url 'deleteLoan' loan.id %}" method="POST">
 
 				{% csrf_token %}
 

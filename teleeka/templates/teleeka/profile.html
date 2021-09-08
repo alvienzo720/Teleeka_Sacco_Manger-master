@@ -114,7 +114,7 @@
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Full name</th>
+                    <th scope="col">Reason</th>
                     <th scope="col">Amount</th>
                     <th scope="col">Date</th>
                      <th>Status</th>
@@ -124,7 +124,7 @@
                  {% for loan in loans %}
                   <tr>
                     <th scope="row">
-                     {{loan.clientName}}
+                     {{loan.reason}}
                     </th>
                     <td>
                      {{loan.amount}} UGX

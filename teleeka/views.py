@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect 
-from django.template.loader import get_template
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
@@ -10,7 +9,7 @@ from .forms import  CreateClientForm, CreateDepositForm, CreateWithdrawlForm , L
 from django.contrib.auth import authenticate, login , logout 
 from django.contrib.auth.decorators import login_required
 from .decorators import unauthnticated_user
-from django.contrib.auth.models import Group
+# from django.contrib.auth.models import Group
 from .models import *
 
 # login View
@@ -204,6 +203,8 @@ def transactions(request):
 def clientPage(request):
 	deposits = Deposit.objects.all()
 	count_deposit = deposits.count()
+	loans = Loan.objects.all()
+	loan_count = loans.count()
 	clients = Client.objects.all()
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
@@ -214,7 +215,7 @@ def clientPage(request):
 	
 	context = {'clients':clients, 'client_count':client_count, 'deposits':deposits,
 				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'all_time_contributions':all_time_contributions}
+				'all_time_contributions':all_time_contributions, 'loan_count':loan_count}
 
 	return render(request, 'teleeka/clientspage.html', context)
 
@@ -226,6 +227,8 @@ def createClient(request):
 	clients = Client.objects.all()
 	client_count = clients.count()
 	withdrawls = Withdrawl.objects.all()
+	loans = Loan.objects.all()
+	loan_count = loans.count()
 	count_withdrawls = withdrawls.count()
 	all_time_contributions = 0
 	for deposit in deposits:
@@ -246,7 +249,7 @@ def createClient(request):
 	
 	context = {'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
 				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'all_time_contributions':all_time_contributions}
+				'all_time_contributions':all_time_contributions,'loan_count':loan_count}
 
 
 	return render(request, 'teleeka/createClient.html',context)
@@ -298,6 +301,9 @@ def createDeposit(request):
 	count_withdrawls = withdrawls.count()
 	loans = Loan.objects.all()
 	loan_count = loans.count()
+	all_time_contributions = 0
+	for deposit in deposits:
+		all_time_contributions += deposit.amount
 
 	if request.method == 'POST':
 		form = CreateDepositForm(request.POST)
@@ -313,7 +319,7 @@ def createDeposit(request):
 	
 	context = {'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
 				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls,
-				'loans':loans, 'loan_count':loan_count}
+				'loans':loans, 'loan_count':loan_count,'all_time_contributions':all_time_contributions}
 
 
 	
@@ -332,6 +338,7 @@ def deleteDeposit(request,pk):
 # create withdrawl view
 def CreateLoan(request):
 	loans = Loan.objects.all()
+	loan_count = loans.count()
 	deposits = Deposit.objects.all()
 	count_deposit = deposits.count()
 	clients = Client.objects.all()
@@ -351,7 +358,7 @@ def CreateLoan(request):
 	else:
 		form = createLoanForm()
 	
-	context = {'loans':loans,'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
+	context = {'loans':loans,'loan_count':loan_count,'form':form,'clients':clients, 'client_count':client_count, 'deposits':deposits,
 				'count_deposit':count_deposit, 'withdrawls':withdrawls,'count_withdrawls':count_withdrawls}
 
 
